@@ -1,30 +1,59 @@
 const express = require('express');
-const CookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 8000;
-const expresslayouts =require('express-ejs-layouts');
-const db = require('./config/mongoose'); 
+const expressLayouts = require('express-ejs-layouts');
+const db = require('./config/mongoose');
+// used for session cookie
+const session = require('express-session');
+const passport = require('passport');
+const passportLocal = require('./config/passport-local-strategy');
+// const sassMiddleware=require('node-s');
+// const sassMiddleware = require('')
 
+// app.use(sassMiddleware({
+//     src
+// }));
 app.use(express.urlencoded());
-app.use(CookieParser());
 
-console.log()
+app.use(cookieParser());
+
 app.use(express.static('./assets'));
-app.use(expresslayouts);
- 
-//extract style and script form sub pages into the layout
-app.set('layout extractStyles',true);
-app.set('layout extractScripts',true);
 
-app.use('/',require('./routes/index'));
+app.use(expressLayouts);
+// extract style and scripts from sub pages into the layout
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 
-// set the view engine
-app.set('view engine','ejs');
-app.set('views','./views');
-app.listen(port,function(err){
-    if(err){
-        console.log(`Error in running the server :${err}`);
+
+// set up the view engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+
+app.use(session({
+    name: 'codeial',
+    // TODO change the secret before deployment in production mode
+    secret: 'blahsomething',
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: (1000 * 60 * 100)
     }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// use express router
+app.use('/', require('./routes'));
+
+
+app.listen(port, function(err){
+    if (err){
+        console.log(`Error in running the server: ${err}`);
+    }
+
     console.log(`Server is running on port: ${port}`);
-})
+});
