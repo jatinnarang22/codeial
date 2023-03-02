@@ -8,12 +8,7 @@ const db = require('./config/mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
-// const sassMiddleware=require('node-s');
-// const sassMiddleware = require('')
 
-// app.use(sassMiddleware({
-//     src
-// }));
 app.use(express.urlencoded());
 
 app.use(cookieParser());

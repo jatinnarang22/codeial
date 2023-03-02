@@ -3,6 +3,6 @@ const router = express.Router();
 
 const postController =require('../controllers/posts_controller');
 
-router.get('/create',postController.create);
+router.post('/create',postController.create);
       
 module.exports = router;

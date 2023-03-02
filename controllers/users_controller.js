@@ -12,7 +12,7 @@ module.exports.profile = function(req,res)
                     user:user
                    })
             }
-            return res.redirect('/users/si gn-in');
+            return res.redirect('/users/sign-in');
         });
     }
     else{
