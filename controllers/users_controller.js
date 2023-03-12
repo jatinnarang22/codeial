@@ -46,7 +46,7 @@ module.exports.create = function(req,res){
                 if(err){console.log('error in finding user in signing up'); return;}
                 return res.redirect('/users/sign-in');
             })
-        }
+        } 
         else{
             return res.redirect('back');
         }
@@ -63,7 +63,7 @@ module.exports.createSession = function(req,res){
               // handle user found
                 if(user){
                     // handle passowrd which don't match
-                    if(user.password != req.body.password){
+                    if(user.password != req.body.password){ 
                         return res.redirect('back');
                     }
                     // handle session creation 
